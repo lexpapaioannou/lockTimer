@@ -21,15 +21,16 @@ public class LockTimer {
 	void start() throws InterruptedException {
 		long i = System.currentTimeMillis();
 		//Button would be activated here
-		Thread.sleep(10000);
-		String foo = displayTimer(i);
-		System.out.print(foo);
 		Thread.sleep(1000);
-		System.out.print("\b\b\b\b\b\b\b\b\b\b");
+		String foo = displayTimer(i);
+		System.out.println(foo);
+		//Thread.sleep(1000);
+		//System.out.print("\b\b\b\b\b\b\b\b\b\b");//Run this line when the button is no longer being pressed
 	}
 
 	String displayTimer(long startTime) {
-		long elapsedTime = System.currentTimeMillis() - startTime;
+		long deltaTime = System.currentTimeMillis() - startTime;
+		long elapsedTime = 604800000 - deltaTime;
 		String time;
 		
 		long elaSec = elapsedTime / 1000;
