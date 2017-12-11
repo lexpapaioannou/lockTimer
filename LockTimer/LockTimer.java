@@ -12,20 +12,33 @@ import java.lang.InterruptedException;//
 		4) Find electronic lock that can work with embedded java
 */
 
-public class LockTimer {
+public class LockTimer extends Thread {
+	public volatile boolean button = false;
+	public volatile int tries = 3;
+
 	public static void main(String[] args) throws InterruptedException {
-		LockTimer lockTimer = new LockTimer();
-		lockTimer.start();
+		(new LockTimer()).start();
 	}
 
-	void start() throws InterruptedException {
-		long i = System.currentTimeMillis();
-		//Button would be activated here
-		Thread.sleep(1000);
-		String foo = displayTimer(i);
-		System.out.println(foo);
-		//Thread.sleep(1000);
-		//System.out.print("\b\b\b\b\b\b\b\b\b\b");//Run this line when the button is no longer being pressed
+	public void run() {
+		while (true) {
+			long i = System.currentTimeMillis();
+			if ((System.currentTimeMillis() - 1) > 604800000) {
+				i = System.currentTimeMillis();
+				continue;
+			} 
+			
+			if (button = true) {
+				displayTimer(i);
+				unlockCounter(tries);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					System.out.println("FATAL ERROR: InterrutpedException");
+				}
+				System.out.print("\b\b\b\b\b\b\b\b\b\b");
+			}
+		}
 	}
 
 	String displayTimer(long startTime) {
@@ -46,12 +59,13 @@ public class LockTimer {
 		return time;
 	}
 	
-	int unlockCounter (int i) {
+	boolean unlockCounter (int i) {
 		if (i > 0) {
 			i--;
-			return i;
+			return true;
 		} else {
-			return i;
+			return false;
 		}
 	}
+
 }
